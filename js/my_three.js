@@ -18,13 +18,43 @@ window.addEventListener("resize", () => {
   camera.updateProjectMatrix();
 });
 
-const geometry = new THREE.BoxGeometry();
-const material = new THREE.MeshLambertMaterial({ color: 0x00ff00 });
-const cube = new THREE.Mesh(geometry, material);
-scene.add(cube);
+// const geometry = new THREE.BoxGeometry();
+// const material = new THREE.MeshLambertMaterial({ color: 0x00ff00 });
+// const cube = new THREE.Mesh(geometry, material);
+// scene.add(cube);
 
-// camera.position.z = 5;
-camera.position.set(0, 1, 2);
+// var cube_edges = new THREE.EdgesHelper(cube, 0x0000ff);
+// cube_edges.material.linewidth = 2;
+// cube.add(cube_edges);
+
+const circle_geometry = new THREE.CircleGeometry(1, 32);
+const circle_material = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+const circle = new THREE.Mesh(circle_geometry, circle_material);
+circle.rotation.x = 0.5; // Math.PI / 2;
+scene.add(circle);
+
+// var extrudedGeometry = new THREE.ExtrudeGeometry(circle, {
+//   depth: 5,
+//   bevelEnabled: false,
+// });
+
+// var extrudedMesh = new THREE.Mesh(
+//   extrudedGeometry,
+//   new THREE.MeshPhongMaterial({ color: 0xff0000 })
+// );
+// scene.add(extrudedMesh);
+
+const cylinder_geometry = new THREE.CylinderGeometry(1, 1, 0.2, 32);
+const cylinder_material = new THREE.MeshLambertMaterial({ color: 0xff0000});
+const cylinder = new THREE.Mesh(cylinder_geometry, cylinder_material);
+scene.add(cylinder);
+
+var cylinder_edges = new THREE.EdgesHelper(cylinder, 0x0000ff);
+cylinder_edges.material.linewidth = 2;
+cylinder.add(cylinder_edges);
+
+camera.position.z = 2;
+// camera.position.set(0, 1, 2);
 
 const color = 0xffffff;
 const intensity = 0.2;
@@ -36,13 +66,19 @@ const light2 = new THREE.HemisphereLight(0xffffbb, 0x080820, 1);
 scene.add(light2);
 // requestAnimationFrame(animate);
 
-camera.lookAt(cube.position);
+camera.lookAt(cylinder.position);
 
 var animate = function () {
   requestAnimationFrame(animate);
-  // cube.rotation.x += 0.01;
-  cube.rotation.y += 0.01;
+  // cylinder.rotation.x += 0.01;
+  // cylinder.rotation.z += 0.01;
 
   renderer.render(scene, camera);
 };
+
+document.body.onmousemove = function (e) {
+  cylinder.rotation.y = e.pageX / 100;
+  cylinder.rotation.x = e.pageY / 100;
+};
+
 animate();
