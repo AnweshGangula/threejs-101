@@ -1,3 +1,6 @@
+import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.121.1/build/three.module.js";
+import { OrbitControls } from "https://cdn.jsdelivr.net/npm/three@0.121.1/examples/jsm/controls/OrbitControls.js";
+
 let scene, camera, renderer, cube, cylinder, circle, text_mesh
 function init() {
   scene = new THREE.Scene();
@@ -66,7 +69,9 @@ function init() {
   scene.add( text_mesh );
 } );
 
-var controls = new THREE.OrbitControls( camera, renderer.domElement );
+  document.getElementById("submit_button").addEventListener("click", Update_Text);
+  
+var controls = new OrbitControls( camera, renderer.domElement );
 }
 
 function getTextMesh (text, material) {
